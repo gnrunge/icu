@@ -71,6 +71,8 @@ public:
      */
     int32_t spanBackUTF8(const uint8_t *s, int32_t length, USetSpanCondition spanCondition) const;
 
+    Dummy dummer;
+
 private:
     void initBits();
     void overrideIllegal();
