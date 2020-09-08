@@ -189,7 +189,8 @@ matrix:
 
     # Check compilation of internal headers.
     - name: "internal header compilation check"
-      language: "cpp"
+      language: cpp
+      os:       linux
       before_srcipt:
         cd icu4c/source
       script:
