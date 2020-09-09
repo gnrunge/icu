@@ -66,6 +66,9 @@ static void TestExampleCode() {
     int32_t len;
     const UChar* str = ufmtval_getString(unumrf_resultAsValue(uresult, &ec), &len, &ec);
     assertSuccessCheck("There should not be a failure in the example code", &ec, TRUE);
+    if (str == NULL) {
+        str = u"(null)";
+    }
     assertUEquals("Should produce expected string result", u"$3 – $5", str);
     assertIntEquals("Length should be as expected", u_strlen(str), len);
 
