@@ -192,6 +192,6 @@ matrix:
       language: cpp
       os:       linux
       before_srcipt:
-        cd icu4c/source
+        - cd icu4c/source
       script:
         - test/hdrtst/testinternalheaders.sh
