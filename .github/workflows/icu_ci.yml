@@ -12,5 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: tools/scripts/icu-file-utf8-check.py
-      - run: cd icu4c/source
+      - run: cd icu4c/source; echo $PWD
+      - run: echo $PWD
       - run: cd icu4c/source; test/hdrtst/testinternalheaders.sh
