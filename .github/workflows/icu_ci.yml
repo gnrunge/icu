@@ -7,8 +7,9 @@ name: icu_ci
 
 on: [push]
 jobs:
-  internal-eheader-compilation:
+  internal-header-compilation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: tools/scripts/icu-file-utf8-check.py
+      - run: icu4c/source/test/hdrtst/testinternalheaders.sh
