@@ -1,0 +1,14 @@
+# Copyright (C) 2016 and later: Unicode, Inc. and others.
+# License & terms of use: http://www.unicode.org/copyright.html
+#
+# GitHub Action configuration script for ICU continuous integration tasks.
+
+name: icu_ci
+
+on: [push]
+jobs:
+  internal-eheader-compilation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: tools/scripts/icu-file-utf8-check.py
