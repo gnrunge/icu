@@ -7,11 +7,43 @@ name: icu_ci
 
 on: [push]
 jobs:
+
+  # clang release build with some options to enforce useful constraints.
+  # Includes dependency checker on an in-source, optimized build.
+  # Includes checking @draft etc. API tags vs. ifndef guards like
+  # U_HIDE_DRAFT_API and U_FORCE_HIDE_DRAFT_API.
+  # (FORCE guards make this tool pass but won't compile to working code.
+  # See the testtagsguards.sh script for details.)
+  clang-release-build-and-test:
+    runs-on:ubuntu-latest
+    steps:
+      - env:
+          CPPFLAGS: -DU_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
+          CFLAGS: -Wimplicit-fallthrough
+          CXXFLAGS: -Wimplicit-fallthrough
+      - run: |
+          echo $CPPFLAGS;
+          cd icu4c/soure;
+          runConfigure Linux;
+          make -j 4 check
+
+  # Copyright scan
+  copyright-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: perl tools/scripts/cpysearch/cpyscan.pl
+
+  # Check compilation of internal headers.
   internal-header-compilation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: tools/scripts/icu-file-utf8-check.py
-      - run: cd icu4c/source; echo $PWD
-      - run: echo $PWD
       - run: cd icu4c/source; test/hdrtst/testinternalheaders.sh
+
+  # Check source files for valid UTF-8 and for absence of BOM.
+  valid-UTF-8-and-no-BOM check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: tools/scripts/icu-file-utf8-check.py
