@@ -21,7 +21,7 @@ jobs:
       - run: |
           echo $CPPFLAGS;
           cd icu4c/source;
-          ./runConfigureICU Linux;
+          ./runConfigureICU Linux --enable-layoutex=no;
           cat test/Makefile;
           diff test/Makefile test/Makefile.in
 
