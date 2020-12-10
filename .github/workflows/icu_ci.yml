@@ -17,6 +17,7 @@ jobs:
   clang-release-build-and-test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - env:
           CPPFLAGS: -DU_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
           CFLAGS: -Wimplicit-fallthrough
