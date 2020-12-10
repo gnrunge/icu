@@ -7708,7 +7708,7 @@ fi
 
 
 if test "$layoutex" = true; then
-  LAYOUTEX_TRUE=
+  LAYOUTEX_TRUE='#'
   U_HAVE_LAYOUTEX=1
 else
   LAYOUTEX_TRUE='#'

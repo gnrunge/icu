@@ -23,7 +23,7 @@ jobs:
           cd icu4c/source;
           ./runConfigureICU Linux;
           cat test/Makefile;
-          make -j 4 check
+          diff test/Makefile test/Makefile.in
 
   # Copyright scan
   copyright-scan:
