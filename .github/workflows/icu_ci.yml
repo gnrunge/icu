@@ -21,7 +21,7 @@ jobs:
       - run: |
           echo $CPPFLAGS;
           cd icu4c/source;
-          runConfigure Linux;
+          ./runConfigureICU Linux;
           make -j 4 check
 
   # Copyright scan
