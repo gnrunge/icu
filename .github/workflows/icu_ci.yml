@@ -39,7 +39,7 @@ jobs:
       - run: cd icu4c/source; test/hdrtst/testinternalheaders.sh
 
   # Check source files for valid UTF-8 and for absence of BOM.
-  valid-UTF-8-and-no-BOM check:
+  valid-UTF-8-and-no-BOM-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
