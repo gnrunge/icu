@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           echo $CPPFLAGS;
-          cd icu4c/soure;
+          cd icu4c/source;
           runConfigure Linux;
           make -j 4 check
 
