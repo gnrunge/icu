@@ -22,8 +22,7 @@ jobs:
           echo $CPPFLAGS;
           cd icu4c/source;
           ./runConfigureICU Linux --enable-layoutex=no;
-          cat test/Makefile;
-          diff test/Makefile test/Makefile.in
+          make -j 4 check
 
   # Copyright scan
   copyright-scan:
