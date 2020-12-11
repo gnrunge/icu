@@ -3,9 +3,14 @@
 #
 # GitHub Action configuration script for ICU continuous integration tasks.
 
-name: icu_ci
+name: ICU Continuous Integration
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: '*'
+
 jobs:
 
   # ICU4J build and unit test
