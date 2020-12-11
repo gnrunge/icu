@@ -17,16 +17,16 @@ jobs:
   clang-release-build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        run: |
-          echo $CPPFLAGS;
-          cd icu4c/source;
-          ./runConfigureICU Linux --enable-layoutex=no;
-          make -j 4 check
-        env:
-          INTLTEST_OPTS: utility/MultithreadTest
-          CPPFLAGS: -fsanitize=thread
-          LDFLAGS: -fsanitize=thread
+      uses: actions/checkout@v2
+      run: |
+        echo $CPPFLAGS;
+        cd icu4c/source;
+        ./runConfigureICU Linux --enable-layoutex=no;
+        make -j 4 check
+      env:
+        INTLTEST_OPTS: utility/MultithreadTest
+        CPPFLAGS: -fsanitize=thread
+        LDFLAGS: -fsanitize=thread
 
   # Copyright scan
   copyright-scan:
