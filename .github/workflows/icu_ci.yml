@@ -5,11 +5,7 @@
 
 name: ICU Continuous Integration
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: '*'
+on: [push]
 
 jobs:
 
