@@ -18,12 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
+        run: |
           echo $CPPFLAGS;
           cd icu4c/source;
           ./runConfigureICU Linux --enable-layoutex=no;
           make -j 4 check
-      - env:
+        env:
           INTLTEST_OPTS: utility/MultithreadTest
           CPPFLAGS: -fsanitize=thread
           LDFLAGS: -fsanitize=thread
