@@ -8,6 +8,18 @@ name: icu_ci
 on: [push]
 jobs:
 
+  # ICU4J build and unit test
+  icu4j-build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ICU4J
+        run: |
+          cd icu4j;
+          ant clean;
+          ant check;
+
   # clang release build with some options to enforce useful constraints.
   # Includes dependency checker on an in-source, optimized build.
   # Includes checking @draft etc. API tags vs. ifndef guards like
@@ -24,10 +36,11 @@ jobs:
           sudo apt-get -y install doxygen;
           cd icu4c/source;
           ./runConfigureICU Linux --enable-layoutex=no;
-          make -j 2
-          make -j 2 check
+          make -j 2;
+          make -j 2 check;
           # ( cd test/depstest && python3 depstest.py ../../../source/ )
-          ( cd .. && source/test/hdrtst/testtagsguards.sh )
+          ( cd .. && source/test/hdrtst/testtagsguards.sh );
+          make dist
         env:
           CPPFLAGS: -DU_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
           CFLAGS: -Wimplicit-fallthrough
