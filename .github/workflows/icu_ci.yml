@@ -21,12 +21,12 @@ jobs:
 
       - name: ICU4C with clang
         run: |
-          echo $CPPFLAGS;
+          sudo apt-get -y install doxygen;
           cd icu4c/source;
           ./runConfigureICU Linux --enable-layoutex=no;
           make -j 2
           make -j 2 check
-          ( cd test/depstest && python3 depstest.py ../../../source/ )
+          # ( cd test/depstest && python3 depstest.py ../../../source/ )
           ( cd .. && source/test/hdrtst/testtagsguards.sh )
         env:
           CPPFLAGS: -DU_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
