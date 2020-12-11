@@ -17,8 +17,8 @@ jobs:
   clang-release-build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkouet@v2
-        
+      - uses: actions/checkout@v2
+
       - name: ICU4C with clang
         run: |
           echo $CPPFLAGS;
@@ -26,9 +26,9 @@ jobs:
           ./runConfigureICU Linux --enable-layoutex=no;
           make -j 4 check
         env:
-          INTLTEST_OPTS: utility/MultithreadTest
-          CPPFLAGS: -fsanitize=thread
-          LDFLAGS: -fsanitize=thread
+          CPPFLAGS: -DU_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
+          CFLAGS: -Wimplicit-fallthrough
+          CXXFLAGS: -Wimplicit-fallthrough
 
   # Copyright scan
   copyright-scan:
