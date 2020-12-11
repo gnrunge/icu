@@ -18,6 +18,8 @@ jobs:
         with:
           java-version: 1.11
           lfs: true
+      - name: Checkout lfs objects
+        run: git lfs checkout
       - name: ICU4J
         run: |
           cd icu4j;
