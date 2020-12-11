@@ -24,7 +24,10 @@ jobs:
           echo $CPPFLAGS;
           cd icu4c/source;
           ./runConfigureICU Linux --enable-layoutex=no;
-          make -j 4 check
+          make -j 2
+          make -j 2 check
+          ( cd test/depstest && python3 depstest.py ../../../source/ )
+          ( cd .. && source/test/hdrtst/testtagsguards.sh )
         env:
           CPPFLAGS: -DU_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
           CFLAGS: -Wimplicit-fallthrough
