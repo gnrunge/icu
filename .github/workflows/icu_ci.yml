@@ -17,7 +17,8 @@ jobs:
       - name: ICU4J
         run: |
           cd icu4j;
-          ant clean;
+          ant init;
+          echo $PWD;
           ant check;
 
   # clang release build with some options to enforce useful constraints.
