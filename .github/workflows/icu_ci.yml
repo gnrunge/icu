@@ -23,9 +23,9 @@ jobs:
         run: |
           cd icu4j;
           ant init;
-          echo $PWD;
-          ls -l main/shared/data;
           ant check;
+          find out/junit-results -name "*.txt" -exec grep -l FAILED {} \;
+
 
   # clang release build with some options to enforce useful constraints.
   # Includes dependency checker on an in-source, optimized build.
