@@ -1466,7 +1466,7 @@ public class NumberFormatterApiTest extends TestFmwk {
                         .precision(Precision.maxSignificantDigits(2)),
                 new ULocale("en-ZA"),
                 987654321,
-                "777 thousand km");
+                "990 thousand km");
 
         assertFormatSingle(
                 "Compact notation with Usage: unusual but possible (long, precision override)",
