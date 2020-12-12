@@ -46,7 +46,7 @@ jobs:
           ./runConfigureICU Linux --enable-layoutex=no;
           make -j 2;
           make -j 2 check;
-          # ( cd test/depstest && python3 depstest.py ../../../source/ ) ICU-21436
+          ( cd test/depstest && python3 depstest.py ../../../source/ );
           ( cd .. && source/test/hdrtst/testtagsguards.sh );
           make dist
         env:
