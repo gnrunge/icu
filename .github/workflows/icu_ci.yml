@@ -5,11 +5,7 @@
 
 name: GHA CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: '*'
+on: [push]
 
 jobs:
 
