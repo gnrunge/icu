@@ -3,9 +3,13 @@
 #
 # GitHub Action configuration script for ICU continuous integration tasks.
 
-name: ICU Continuous Integration
+name: GHA CI
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: '*'
 
 jobs:
 
@@ -27,8 +31,6 @@ jobs:
           cd icu4j;
           ant init;
           ant check;
-          #find out/junit-results -name "*.txt" -exec grep -l FAILED {} \;
-
 
   # clang release build with some options to enforce useful constraints.
   # Includes dependency checker on an in-source, optimized build.
@@ -48,7 +50,7 @@ jobs:
           ./runConfigureICU Linux --enable-layoutex=no;
           make -j 2;
           make -j 2 check;
-          # ( cd test/depstest && python3 depstest.py ../../../source/ )
+          # ( cd test/depstest && python3 depstest.py ../../../source/ ) ICU-21436
           ( cd .. && source/test/hdrtst/testtagsguards.sh );
           make dist
         env:
