@@ -14,12 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout and setup
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
         with:
-          java-version: 1.11
           lfs: true
       - name: Checkout lfs objects
         run: git lfs pull
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
       - name: ICU4J
         run: |
           cd icu4j;
