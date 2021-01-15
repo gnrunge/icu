@@ -94,12 +94,12 @@ jobs:
           make -j2 check;
           make install;
           cd $PREFIX/bin;
-          ( LD_LIBRARY_PATH=../lib ./icuinfo )
-       env:
-         PREFIX: /tmp/icu-prefix
-         CC: gcc-8
-         CXX: g++-8
-         CXXFLAGS: -std=c++14
+          LD_LIBRARY_PATH=../lib ./icuinfo
+        env:
+          PREFIX: /tmp/icu-prefix
+          CC: gcc-8
+          CXX: g++-8
+          CXXFLAGS: -std=c++14
 
   # Clang Linux with address sanitizer.
   clang-asan:
