@@ -79,6 +79,28 @@ jobs:
           CFLAGS: -Wimplicit-fallthrough
           CXXFLAGS: -Wimplicit-fallthrough
 
+  # Out of source build with gcc 8 and c++14; executes icuinfo.
+  gcc-8-c++14:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ICU4C with gcc 8 and c++14
+        run: |
+          mkdir build;
+          cd build;
+          ../icu4c/source/runConfigureICU Linux --disable-layout --disable-layoutex --prefix=$PREFIX;
+          make -j2;
+          make -j2 check;
+          make install;
+          cd $PREFIX/bin;
+          LD_LIBRARY_PATH=../lib ./icuinfo
+       env:
+         PREFIX: /tmp/icu-prefix
+         CC: gcc-8
+         CXX: g++-8
+         CXXFLAGS: -std=c++14
+
   # Clang Linux with address sanitizer.
   clang-asan:
     runs-on: ubuntu-latest
