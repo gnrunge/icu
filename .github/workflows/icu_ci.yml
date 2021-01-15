@@ -80,7 +80,7 @@ jobs:
           CXXFLAGS: -Wimplicit-fallthrough
 
   # Out of source build with gcc 8 and c++14; executes icuinfo.
-  gcc-8-c++14:
+  gcc-8-stdlib_14:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
