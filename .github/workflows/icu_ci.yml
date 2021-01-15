@@ -5,11 +5,7 @@
 
 name: GHA CI
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: '*'
+on: [push]
 
 jobs:
 
@@ -31,6 +27,31 @@ jobs:
           cd icu4j;
           ant init;
           ant check;
+
+  # gcc debug build.
+  # Includes dependency checker.
+  # Note - the dependency checker needs to be run on both a debug and an optimized build.
+  # This one (gcc) for debug, and linux clang (see job below) for optimized.
+  #
+  # Test both out-of-source and in-source builds. This one (gcc) for out-of-source,
+  # and linux clang (below) for in-source.
+  #
+  # Invokes test/hdrtst to check public headers compliance.
+  gcc-debug-build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ICU4C with gcc
+        run: |
+          mkdir build;
+          cd build;
+          ../icu4c/source/runConfigureICU --enable-debug --disable-release Linux/gcc --prefix=/tmp/icu-prefix --enable-tracing;
+          make -j2;
+          make -j2 check;
+          ( cd ../icu4c/source/test/depstest && ./depstest.py ../../../../build/ );
+          make install;
+          PATH=/tmp/icu-prefix/bin:$PATH make -C test/hdrtst check
 
   # clang release build with some options to enforce useful constraints.
   # Includes dependency checker on an in-source, optimized build.
@@ -58,6 +79,40 @@ jobs:
           CFLAGS: -Wimplicit-fallthrough
           CXXFLAGS: -Wimplicit-fallthrough
 
+  # Clang Linux with address sanitizer.
+  clang-asan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ICU4C with clang and asan
+        run: |
+          cd icu4c/source;
+          ./runConfigureICU --enable-debug --disable-release Linux --disable-renaming --enable-tracing;
+          make -j2;
+          make -j2 check
+        env:
+          CPPFLAGS: -fsanitize=address
+          LDFLAGS: -fsanitize=address
+
+  # Clang Linux with thread sanitizer.
+  clang-tsan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ICU4C with clang and tsan
+        run: |
+          cd icu4c/source;
+          ./runConfigureICU --enable-debug --disable-release Linux --disable-renaming
+          make -j2;
+          make -j2 -C test;
+          make -j2 -C test/intltest check
+        env:
+          INTLTEST_OPTS: utility/MultithreadTest
+          CPPFLAGS: -fsanitize=thread
+          LDFLAGS: -fsanitize=thread
+
   # Copyright scan
   copyright-scan:
     runs-on: ubuntu-latest
@@ -78,3 +133,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: tools/scripts/icu-file-utf8-check.py
+
+  # Verify icu4c release tools buildability.
+  icu4c-release-tools:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: mvn -f tools/release/java/pom.xml package dependency:analyze
