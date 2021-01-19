@@ -28,6 +28,27 @@ jobs:
           ant init;
           ant check;
 
+  # Out of source build with gcc 8 and Wextra.
+  gcc-8-Wextra:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ICU4C with gcc 8 and extra warnings.
+        run: |
+          mkdir build;
+          cd build;
+          ../icu4c/source/runConfigureICU Linux --disable-debug --enable-release --disable-layoutex --prefix=$PREFIX;
+          make -j2;
+          make -j2 check;
+          make install;
+          PATH=$PREFIX/bin:$PATH make -C test/hdrtst check
+        env:
+          PREFIX: /tmp/icu-prefix
+          CC: gcc-8
+          CXX: g++8
+          CXXFLAGS: -Wextra
+
   # gcc debug build.
   # Includes dependency checker.
   # Note - the dependency checker needs to be run on both a debug and an optimized build.
