@@ -156,6 +156,18 @@ jobs:
           CPPFLAGS: -fsanitize=thread
           LDFLAGS: -fsanitize=thread
 
+  # MacOS with clang
+  macos-clang:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ICU4C with clang on MacOS
+        run: |
+          cd icu4c/source;
+          python3 .runConfigureICU MacOSX;
+          make -j2 check
+
   # Copyright scan
   copyright-scan:
     runs-on: ubuntu-latest
