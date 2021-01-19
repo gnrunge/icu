@@ -46,7 +46,7 @@ jobs:
         env:
           PREFIX: /tmp/icu-prefix
           CC: gcc-8
-          CXX: g++8
+          CXX: g++-8
           CXXFLAGS: -Wextra
 
   # gcc debug build.
