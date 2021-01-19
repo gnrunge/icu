@@ -165,7 +165,7 @@ jobs:
       - name: ICU4C with clang on MacOS
         run: |
           cd icu4c/source;
-          python3 .runConfigureICU MacOSX;
+          python3 runConfigureICU MacOSX;
           make -j2 check
 
   # Copyright scan
