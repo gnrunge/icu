@@ -74,7 +74,7 @@ jobs:
           make -j2 check;
           ( cd ../icu4c/source/test/depstest && ./depstest.py ../../../../build/ );
           make install;
-          PATH=/tmp/icu-prefix/bin:$PATH make -C test/hdrtst check
+          PATH=$PREFIX/bin:$PATH make -C test/hdrtst check
 
   # clang release build with some options to enforce useful constraints.
   # Includes dependency checker on an in-source, optimized build.
