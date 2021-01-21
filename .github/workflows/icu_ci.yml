@@ -28,7 +28,7 @@ jobs:
           ant init;
           ant check;
 
-  # Out of source build with gcc 8 and Wextra.
+  # Out of source build with gcc 10 and Wextra.
   gcc-10-Wextra:
     runs-on: ubuntu-latest
     steps:
@@ -64,10 +64,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: ICU4C with gcc
+        env:
+          PREFIX: /tmp/icu-prefix
         run: |
           mkdir build;
           cd build;
-          ../icu4c/source/runConfigureICU --enable-debug --disable-release Linux/gcc --prefix=/tmp/icu-prefix --enable-tracing;
+          ../icu4c/source/runConfigureICU --enable-debug --disable-release Linux/gcc --prefix=$PREFIX --enable-tracing;
           make -j2;
           make -j2 check;
           ( cd ../icu4c/source/test/depstest && ./depstest.py ../../../../build/ );
@@ -100,18 +102,18 @@ jobs:
           ( cd .. && source/test/hdrtst/testtagsguards.sh );
           make dist
 
-  # Out of source build with gcc 10 and c++14; executes icuinfo.
-  gcc-10-stdlib_14:
+  # Out of source build with gcc 10, c++14, and extra warnings; executes icuinfo.
+  gcc-10-stdlib14:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: ICU4C with gcc 10 and c++14
+      - name: ICU4C with gcc 10 and c++14 and extra warnings.
         env:
           PREFIX: /tmp/icu-prefix
           CC: gcc-10
           CXX: g++-10
-          CXXFLAGS: -std=c++14
+          CXXFLAGS: -std=c++14 -Wextra
         run: |
           mkdir build;
           cd build;
