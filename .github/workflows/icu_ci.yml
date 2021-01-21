@@ -29,16 +29,16 @@ jobs:
           ant check;
 
   # Out of source build with gcc 8 and Wextra.
-  gcc-8-Wextra:
+  gcc-10-Wextra:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: ICU4C with gcc 8 and extra warnings.
+      - name: ICU4C with gcc 10 and extra warnings.
         env:
           PREFIX: /tmp/icu-prefix
-          CC: gcc-8
-          CXX: g++-8
+          CC: gcc-10
+          CXX: g++-10
           CXXFLAGS: -Wextra
         run: |
           mkdir build;
@@ -86,6 +86,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: ICU4C with clang
+        env:
+          CPPFLAGS: -DU_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
+          CFLAGS: -Wimplicit-fallthrough
+          CXXFLAGS: -Wimplicit-fallthrough
         run: |
           sudo apt-get -y install doxygen;
           cd icu4c/source;
@@ -95,18 +99,19 @@ jobs:
           ( cd test/depstest && python3 depstest.py ../../../source/ );
           ( cd .. && source/test/hdrtst/testtagsguards.sh );
           make dist
-        env:
-          CPPFLAGS: -DU_NO_DEFAULT_INCLUDE_UTF_HEADERS=1
-          CFLAGS: -Wimplicit-fallthrough
-          CXXFLAGS: -Wimplicit-fallthrough
 
-  # Out of source build with gcc 8 and c++14; executes icuinfo.
-  gcc-8-stdlib_14:
+  # Out of source build with gcc 10 and c++14; executes icuinfo.
+  gcc-10-stdlib_14:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: ICU4C with gcc 8 and c++14
+      - name: ICU4C with gcc 10 and c++14
+        env:
+          PREFIX: /tmp/icu-prefix
+          CC: gcc-10
+          CXX: g++-10
+          CXXFLAGS: -std=c++14
         run: |
           mkdir build;
           cd build;
@@ -116,11 +121,6 @@ jobs:
           make install;
           cd $PREFIX/bin;
           LD_LIBRARY_PATH=../lib ./icuinfo
-        env:
-          PREFIX: /tmp/icu-prefix
-          CC: gcc-8
-          CXX: g++-8
-          CXXFLAGS: -std=c++14
 
   # Clang Linux with address sanitizer.
   clang-asan:
