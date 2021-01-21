@@ -35,6 +35,11 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: ICU4C with gcc 8 and extra warnings.
+        env:
+          PREFIX: /tmp/icu-prefix
+          CC: gcc-8
+          CXX: g++-8
+          CXXFLAGS: -Wextra
         run: |
           mkdir build;
           cd build;
@@ -43,11 +48,6 @@ jobs:
           make -j2 check;
           make install;
           PATH=$PREFIX/bin:$PATH make -C test/hdrtst check
-        env:
-          PREFIX: /tmp/icu-prefix
-          CC: gcc-8
-          CXX: g++-8
-          CXXFLAGS: -Wextra
 
   # gcc debug build.
   # Includes dependency checker.
