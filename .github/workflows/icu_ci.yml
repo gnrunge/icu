@@ -21,8 +21,8 @@ jobs:
           cd icu4c/source;
           ./runConfigureICU Linux --disable-renaming;
           set +o pipefail && make doc 2>&1 | tee doxygen.log && ( ! grep -P 'warning:(?! .* file Doxyfile)' doxygen.log );
-          ls -l;
-          #cat doxygen.log;
+          #ls -l;
+          cat doxygen.log;
           #grep -P 'warning:(?! .* file Doxyfile)' doxygen.log;
           #ls -l;
           #grep -P 'warning:' doxygen.log;
