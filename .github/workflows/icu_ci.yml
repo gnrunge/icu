@@ -13,8 +13,9 @@ jobs:
   icu4c-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: ICU4C doc
       - uses: actions/checkout@v2
+
+      - name: ICU4C doc
         run: |
           cd icu4c/source;
           ./runConfigureICU Linux --disable-renaming;
