@@ -23,7 +23,7 @@ jobs:
           make doc 2>&1 | tee doxygen.log && ( ! grep -P 'warning:(?! .* file Doxyfile)' doxygen.log );
           ls -l doxygen.log;
           wc doxygen.log;
-          #grep -P 'warning:(?! .* file Doxyfile)' doxygen.log;
+          grep Warning doxygen.log;
           #ls -l;
           #grep -P 'warning:' doxygen.log;
           
