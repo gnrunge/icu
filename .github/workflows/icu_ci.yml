@@ -22,7 +22,7 @@ jobs:
           ./runConfigureICU Linux --disable-renaming;
           make doc 2>&1 | tee doxygen.log && ( ! grep -P 'warning:(?! .* file Doxyfile)' doxygen.log );
           ls -l;
-          #cat doxygen.log;
+          tail doxygen.log;
           #grep -P 'warning:(?! .* file Doxyfile)' doxygen.log;
           #ls -l;
           #grep -P 'warning:' doxygen.log;
