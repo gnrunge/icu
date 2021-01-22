@@ -18,6 +18,7 @@ jobs:
       - name: ICU4C doc
         run: |
           sudo apt-get -y install doxygen;
+          doxygen -v;
           cd icu4c/source;
           ./runConfigureICU Linux --disable-renaming;
           make doc 2>&1 | tee doxygen.log && ( ! grep -P 'warning:(?! .* file Doxyfile)' doxygen.log );
