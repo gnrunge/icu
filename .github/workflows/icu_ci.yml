@@ -20,7 +20,7 @@ jobs:
           sudo apt-get -y install doxygen;
           cd icu4c/source;
           ./runConfigureICU Linux --disable-renaming;
-          set +o pipefail && make doc 2>&1 | tee doxygen.log; # && ( ! grep -P 'warning:(?! .* file Doxyfile)' doxygen.log );
+          set +o pipefail && make doc 2>&1 | tee doxygen.log && ( ! grep -P 'warning:(?! .* file Doxyfile)' doxygen.log );
           ls -l;
           cat doxygen.log;
           grep -P 'warning:(?! .* file Doxyfile)' doxygen.log;
