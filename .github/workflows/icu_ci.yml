@@ -9,6 +9,17 @@ on: [push]
 
 jobs:
 
+  # ICU4C docs.
+  icu4c-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ICU4C doc
+      - uses: actions/checkout@v2
+        run: |
+          cd icu4c/source;
+          ./runConfigureICU Linux --disable-renaming;
+          set +o pipefail && make doc 2>&1 | tee doxygen.log && ( ! grep -P 'warning:(?! .* file Doxyfile)' doxygen.log )
+
   # ICU4J build and unit test
   icu4j-build-and-test:
     runs-on: ubuntu-latest
