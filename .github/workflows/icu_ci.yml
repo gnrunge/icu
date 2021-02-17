@@ -201,7 +201,7 @@ jobs:
   # Check UCONFIG_NO_XXX variations.
   uconfig_variation-check:
     runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@v2
-       - run: tools/scripts/uconfig_vars_test.py
+    steps:
+      - uses: actions/checkout@v2
+      - run: tools/scripts/uconfig_vars_test.py
     
