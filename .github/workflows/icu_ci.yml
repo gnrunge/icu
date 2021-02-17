@@ -204,4 +204,3 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: tools/scripts/uconfig_vars_test.py
-    
