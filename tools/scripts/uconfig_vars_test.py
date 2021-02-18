@@ -50,7 +50,7 @@ def SetUpICU():
     print('Exit code rm: %d\n' % exit_code)
     _, exit_code= RunCmd('mkdir /tmp/icu_cnfg')
     print('Exit code mkdir: %d\n' % exit_code)
-    out, exit_code = RunCmd('runConfigureICU Linux --prefix=/tmp/icu_cnfg')
+    out, exit_code = RunCmd('pwd; runConfigureICU Linux --prefix=/tmp/icu_cnfg')
     print('output:\n')
     print(out)
     os.system('cat uconfig_test.log')
@@ -123,6 +123,7 @@ def EnableUConfigNo(uconfig_file, uconfig_no_flag):
 def main():
     os.chdir('icu4c/source')
     orig_uconfig_file = ReadFile('common/unicode/uconfig.h')
+    print('uconfig.h: %s\n' % orig_uconfig_file)
 
     all_uconfig_no_flags, test_results = ExtractUConfigNoXXX(orig_uconfig_file)
     if not all_uconfig_no_flags:
