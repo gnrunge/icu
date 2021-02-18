@@ -47,14 +47,21 @@ def SetUpICU():
     """Configuration, installation of ICU4C."""
 
     _, exit_code = RunCmd('rm -rf /tmp/icu_cnfg')
-    print('Exit code rm: S%d\n' % exit_code)
-    RunCmd('mkdir /tmp/icu_cnfg')
-    out , exit_code = RunCmd('runConfigureICU Linux --prefix=/tmp/icu_cnfg')
+    print('Exit code rm: %d\n' % exit_code)
+    _, exit_code= RunCmd('mkdir /tmp/icu_cnfg')
+    print('Exit code mkdir: %d\n' % exit_code)
+    out, exit_code = RunCmd('runConfigureICU Linux --prefix=/tmp/icu_cnfg')
+    print('output:\n')
+    print(out)
+    os.system('cat uconfig_test.log')
     if exit_code != 0:
         print('ICU4C configuration failed!')
-        print('output:\n')
-        print(out)
         sys.exit(-1)
+
+    log, _ = RunCmd('cat uconfig_test.log')
+    print('log:\n')
+    print(log)
+
     _, exit_code = RunCmd('make -j2 install')
     if exit_code != 0:
         print('make install failed!')
