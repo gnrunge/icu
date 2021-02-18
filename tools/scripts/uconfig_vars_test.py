@@ -50,7 +50,7 @@ def SetUpICU():
     print('Exit code rm: %d\n' % exit_code)
     _, exit_code= RunCmd('mkdir /tmp/icu_cnfg')
     print('Exit code mkdir: %d\n' % exit_code)
-    out, exit_code = RunCmd('pwd; runConfigureICU Linux --prefix=/tmp/icu_cnfg')
+    out, exit_code = RunCmd('pwd; ls -l; ./runConfigureICU Linux --prefix=/tmp/icu_cnfg')
     print('output:\n')
     print(out)
     os.system('cat uconfig_test.log')
