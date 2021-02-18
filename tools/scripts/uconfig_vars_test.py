@@ -46,7 +46,6 @@ def RunCmd(command):
 def SetUpICU():
     """Configuration, installation of ICU4C."""
 
-    os.chdir('../../icu4c/source')
     RunCmd('rm -rf /tmp/icu_cnfg')
     RunCmd('mkdir /tmp/icu_cnfg')
     _, exit_code = RunCmd('runConfigureICU Linux --prefix=/tmp/icu_cnfg')
@@ -112,7 +111,7 @@ def EnableUConfigNo(uconfig_file, uconfig_no_flag):
     return set_in_uconfig_file
 
 def main():
-    os.chdir('../../icu4c/source')
+    os.chdir('icu4c/source')
     orig_uconfig_file = ReadFile('common/unicode/uconfig.h')
 
     all_uconfig_no_flags, test_results = ExtractUConfigNoXXX(orig_uconfig_file)
