@@ -258,4 +258,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: tools/scripts/uconfig_vars_test.py
+      - run: python3 tools/scripts/uconfig_vars_test.py
