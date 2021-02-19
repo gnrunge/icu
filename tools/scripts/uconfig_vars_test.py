@@ -203,5 +203,6 @@ def main():
         print('Tests pass for all uconfig variations!')
     sys.exit(outcome)
 
+
 if __name__ == '__main__':
   main()
