@@ -184,7 +184,7 @@ jobs:
           cp stubdata/libicudata.so* lib
           ls -l lib
           cd test/cintltst;
-          CINTLTST_OPTS=-w make check  2>&1 | tee cintltst.log;
+          CINTLTST_OPTS=-w make check  2>&1 > cintltst.log;
           tail cintltst.log | grep 'Elapsed time'
 
   # Copyright scan
