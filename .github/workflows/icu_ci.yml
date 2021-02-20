@@ -176,7 +176,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+<<<<<<< HEAD
       - name: ICU4C tests with stubdata
+=======
+      - name ICU4C tests with stubdata
+>>>>>>> 23671faecd (ICU-21323 Automate ICU4C unitcintltst run with stubdata only.)
         run: |
           cd icu4c/source;
           ./runConfigureICU Linux;
