@@ -181,7 +181,7 @@ jobs:
           make -j2 check;
           ls -l lib;
           rm lib/libicudata.so*;
-          cp stubdata/libicudata.so lib
+          cp stubdata/libicudata.so* lib
           cd test/cintltst;
           CINTLTST_OPTS=-w make check | grep 'Elapsed time'
 
