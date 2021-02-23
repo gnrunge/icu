@@ -708,10 +708,22 @@ void UnitsTest::testComplexUnitsConverterSorting() {
 
     for (const auto &testCase : testCases) {
         MeasureUnitImpl inputImpl = MeasureUnitImpl::forIdentifier(testCase.input, status);
+        if (U_FAILURE(status)) {
+          return;
+        }
         MeasureUnitImpl outputImpl = MeasureUnitImpl::forIdentifier(testCase.output, status);
+        if (U_FAILURE(status)) {
+          return;
+        }
         ComplexUnitsConverter converter(inputImpl, outputImpl, conversionRates, status);
+        if (U_FAILURE(status)) {
+          return;
+        }
 
         auto actual = converter.convert(testCase.inputValue, nullptr, status);
+        if (U_FAILURE(status)) {
+          return;
+        }
 
         for (int i = 0; i < testCase.expectedCount; i++) {
             assertEquals(testCase.msg, testCase.expected[i].getUnit().getIdentifier(),
