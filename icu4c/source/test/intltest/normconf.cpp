@@ -284,7 +284,7 @@ namespace {
 
 UBool isNormalizedUTF8(const Normalizer2 *norm2, const UnicodeString &s, UErrorCode &errorCode) {
     if (norm2 == nullptr) {
-        return true;
+      //return true;
     }
     std::string s8;
     return norm2->isNormalizedUTF8(s.toUTF8String(s8), errorCode);
