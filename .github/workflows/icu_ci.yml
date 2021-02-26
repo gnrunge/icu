@@ -177,11 +177,10 @@ jobs:
           make -j2 check;
           rm lib/libicudata.so*;
           cp -P stubdata/libicudata.so* lib
-          ls -l lib
           cd test/cintltst;
           CINTLTST_OPTS=-w make check  2>&1 | grep 'Elapsed Time: ';
           cd ../intltest;
-          INTLTEST_OPTS=-w make check 2>&1 | grep 'Elapsed Time: '
+          INTLTEST_OPTS=-w make check 2>&1 | grep 'Elapsed Time '
 
   # Copyright scan
   copyright-scan:
