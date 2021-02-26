@@ -175,15 +175,11 @@ jobs:
           cd icu4c/source;
           ./runConfigureICU Linux;
           make -j2 check;
-          ls -l lib;
           rm lib/libicudata.so*;
-          cp -P stubdata/libicudata.so* lib;
-          ls -l lib;
+          cp -P stubdata/libicudata.so* lib
+          ls -l lib
           cd test/cintltst;
-          pwd;
-          ls -l;
           CINTLTST_OPTS=-w make check  2>&1 | grep 'Elapsed Time: ';
-          echo $?;
           cd ../intltest;
           INTLTEST_OPTS=-w make check 2>&1 | grep 'Elapsed Time: '
 
