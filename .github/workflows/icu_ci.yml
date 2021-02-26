@@ -176,8 +176,9 @@ jobs:
           ./runConfigureICU Linux;
           make -j2 check;
           rm lib/libicudata.so*;
-          cp -P stubdata/libicudata.so* lib
+          cp -P stubdata/libicudata.so* lib;
           cd test/cintltst;
+          # 'Elapsed Time: ' is printed by makefile upon final success.
           CINTLTST_OPTS=-w make check  2>&1 | grep 'Elapsed Time: ';
           cd ../intltest;
           INTLTEST_OPTS=-w make check 2>&1 | grep 'Elapsed Time: '
