@@ -176,7 +176,7 @@ jobs:
           ./runConfigureICU Linux;
           make -j2 check;
           rm lib/libicudata.so*;
-          cp -P stubdata/libicudata.so* lib;
+          cp -P stubdata/libicudata.so* lib
           cd test/cintltst;
           CINTLTST_OPTS=-w make check  2>&1 | grep 'Elapsed Time: ';
           cd ../intltest;
