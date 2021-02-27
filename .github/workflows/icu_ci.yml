@@ -255,7 +255,7 @@ jobs:
       - run: python3 tools/scripts/uconfig_vars_test.py -u
 
 # Run header tests with UCONFIG_NO_XXX variations.
-  uconfig_variation-check-header-tests:
+  uconfig_variation-check-all-header-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
