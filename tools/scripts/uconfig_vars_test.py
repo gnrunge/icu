@@ -53,7 +53,7 @@ def SetUpICU():
         print('ICU4C configuration failed!')
         print(out)
         sys.exit(-1)
-    _, exit_code = RunCmd('make -j2 install')
+    _, exit_code = RunCmd('make -j4 install')
     if exit_code != 0:
         print('make install failed!')
         sys.exit(-1)
@@ -141,7 +141,7 @@ def main():
         # Run ICU4C unit tests if requested, except for the excluded flags.
         if run_unit and uconfig_no not in excluded_unit_test_flags:
             print('Running unit tests with %s set to 1.' % uconfig_no)
-            _, exit_code = RunCmd('make -j2 check')
+            _, exit_code = RunCmd('make -j4 check')
             if exit_code == 0:
                 test_results[uconfig_no]['unit_test'] = True
             else:
