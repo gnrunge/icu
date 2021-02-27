@@ -8,6 +8,7 @@ http://site.icu-project.org/processes/release/tasks/healthy-code#TOC-Test-uconfi
 for more information.
 """
 
+import getopt
 import os
 import re
 import subprocess
@@ -111,6 +112,16 @@ def EnableUConfigNo(uconfig_file, uconfig_no_flag):
     return set_in_uconfig_file
 
 def main():
+    # Read the options and determine what to run.
+    run_hdr = False
+    run_unit = False
+    optlist, _ = getopt.getopt(sys.argv[1:], "pu")
+    for o, _ in optlist:
+        if o == "-p":
+            run_hdr = True
+        elif o == "-u":
+            run_unit = True
+
     os.chdir('icu4c/source')
     orig_uconfig_file = ReadFile('common/unicode/uconfig.h')
 
@@ -121,82 +132,79 @@ def main():
     SetUpICU()
 
     # Iterate over all flags, set each individually one in uconfig.h and
-    # execute ICU4C unit tests and header test.
+    # execute ICU4C unit tests or/and header test.
     for uconfig_no in all_uconfig_no_flags:
         with open('common/unicode/uconfig.h', 'w') as file_handle:
             file_handle.write(EnableUConfigNo(orig_uconfig_file, uconfig_no))
         RunCmd('make clean')
 
-        # Run ICU4C unit tests, except for the excluded flags.
-        if uconfig_no not in excluded_unit_test_flags:
-            unit_test_result, exit_code = RunCmd('make -j2 check')
+        # Run ICU4C unit tests if requested, except for the excluded flags.
+        if run_unit and uconfig_no not in excluded_unit_test_flags:
+            print('Running unit tests with %s set to 1.' % uconfig_no)
+            _, exit_code = RunCmd('make -j2 check')
             if exit_code == 0:
-                print('Unit tests with %s set to 1 pass!' % uconfig_no)
                 test_results[uconfig_no]['unit_test'] = True
             else:
-                print('Unit tests with %s set to 1 fail!\n' % uconfig_no)
-                print('Test output:\n')
-                print(unit_test_result)
                 test_results[uconfig_no]['unit_test'] = False
 
-        # Run header test for all flags.
-        hdr_test_result, exit_code = RunCmd(
+        # If requested, run header tests.
+        if run_hdr:
+            print('Running header tests with %s set to 1.')
+            _, exit_code = RunCmd(
+                'PATH=/tmp/icu_cnfg/bin:$PATH make -C test/hdrtst check')
+            if exit_code == 0:
+                test_results[uconfig_no]['hdr_test'] = True
+            else:
+                test_results[uconfig_no]['hdr_test'] = False
+
+    # If unit test run is requested, run unit tests with all flags set to '1'
+    # except for excluded flags.
+    if run_unit:
+        uconfig_no_all = orig_uconfig_file
+        for uconfig_no in all_uconfig_no_flags:
+            if uconfig_no not in excluded_unit_test_flags:
+                uconfig_no_all = EnableUConfigNo(uconfig_no_all, uconfig_no)
+        with open('common/unicode/uconfig.h', 'w') as file_handle:
+            file_handle.write(uconfig_no_all)
+        RunCmd('make clean')
+
+        print('Running unit tests with all flags set to 1.')
+        _, exit_code = RunCmd('make -j2 check')
+        if exit_code == 0:
+            test_results['all_flags']['unit_test'] = True
+        else:
+            test_results['all_flags']['unit_test'] = False
+
+    # If header test run is requested, run the tests with all flags set to '1'.
+    if run_hdr:
+        uconfig_no_all = orig_uconfig_file
+        for uconfig_no in all_uconfig_no_flags:
+            uconfig_no_all = EnableUConfigNo(uconfig_no_all, uconfig_no)
+        with open('common/unicode/uconfig.h', 'w') as file_handle:
+            file_handle.write(uconfig_no_all)
+        print('Running header tests with all flags set to 1.')
+        hdr_test_result_all, exit_code = RunCmd(
             'PATH=/tmp/icu_cnfg/bin:$PATH make -C test/hdrtst check')
         if exit_code == 0:
-            print('Header tests with %s set to 1 pass!' % uconfig_no)
-            test_results[uconfig_no]['hdr_test'] = True
+            test_results['all_flags']['hdr_test'] = True
         else:
-            print('Header tests with %s set to 1 fail!' % uconfig_no)
-            print('Test output:\n')
-            print(unit_test_result)
-            test_results[uconfig_no]['unit_test'] = False
-
-    # Run unit tests with all flags set to '1' except for excluded flags.
-    uconfig_no_all = orig_uconfig_file
-    for uconfig_no in all_uconfig_no_flags:
-        if uconfig_no not in excluded_unit_test_flags:
-            uconfig_no_all = EnableUConfigNo(uconfig_no_all, uconfig_no)
-    with open('common/unicode/uconfig.h', 'w') as file_handle:
-        file_handle.write(uconfig_no_all)
-    RunCmd('make clean')
-
-    unit_test_result_all, exit_code = RunCmd('make -j2 check')
-    if exit_code == 0:
-        print('Unit tests with all flags set to 1 pass!')
-        test_results['all_flags']['unit_test'] = True
-    else:
-        print('Unit tests with all flags set to 1 fail!\n')
-        print('Test output:\n')
-        print(unit_test_result)
-        test_results['all_flags']['unit_test'] = False
-
-    # Run header tests with all flags set to '1'.
-    hdr_test_result_all, exit_code = RunCmd(
-            'PATH=/tmp/icu_cnfg/bin:$PATH make -C test/hdrtst check')
-    if exit_code == 0:
-        print('Header tests with %s set to 1 pass!' % uconfig_no)
-        test_results['all_flags']['hdr_test'] = True
-    else:
-        print('Header tests with %s set to 1 fail!' % uconfig_no)
-        print('Test output:\n')
-        print(unit_test_result)
-        test_results['all_flags']['hdr_test'] = False
+            test_results['all_flags']['hdr_test'] = False
 
     # Review test results and report any failures.
     outcome = 0
     print('Summary:\n')
     for uconfig_no in all_uconfig_no_flags:
-        if uconfig_no not in excluded_unit_test_flags:
+        if run_unit and uconfig_no not in excluded_unit_test_flags:
             if test_results[uconfig_no]['unit_test'] == False:
                 outcome = -1
                 print('%s: unit tests fail' % uconfig_no)
-        if test_results[uconfig_no]['hdr_test'] == False:
+        if run_hdr and test_results[uconfig_no]['hdr_test'] == False:
             outcome = -1
             print('%s: header tests fails' % uconfig_no)
-    if test_results['all_flags']['unit_test'] == False:
+    if run_unit and test_results['all_flags']['unit_test'] == False:
         outcome = -1
         print('all flags to 1: unit tests fail!')
-    if test_results['all_flags']['hdr_test'] == False:
+    if run_hdr and test_results['all_flags']['hdr_test'] == False:
         outcome = -1
         print('all flags to 1: header tests fail!')
     if outcome == 0:
