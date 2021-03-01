@@ -62,6 +62,7 @@ def SetUpICU():
     RunCmd('rm /tmp/icu_cnfg/include/unicode/uconfig.h')
     os.symlink(os.path.abspath('common/unicode/uconfig.h'),
                '/tmp/icu_cnfg/include/unicode/uconfig.h')
+    print('ICU setup completed.')
 
 def ExtractUConfigNoXXX(uconfig_file):
     """Parses uconfig.h and returns a list of UCONFIG_NO_XXX labels.
