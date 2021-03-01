@@ -149,7 +149,7 @@ def main():
 
         # If requested, run header tests.
         if run_hdr:
-            print('Running header tests with %s set to 1.', % uconfig_no)
+            print('Running header tests with %s set to 1.' % uconfig_no)
             _, exit_code = RunCmd(
                 'PATH=/tmp/icu_cnfg/bin:$PATH make -C test/hdrtst check')
             if exit_code == 0:
