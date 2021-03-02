@@ -5,13 +5,7 @@
 
 name: GHA CI
 
-on:
-  push:
-    branches:
-      - master
-      - 'maint/maint*'
-  pull_request:
-    branches: '**'
+on: [push]
 
 jobs:
 
@@ -191,6 +185,27 @@ jobs:
           echo 'Running ICU4C intltest with stubdata.';
           INTLTEST_OPTS=-w make check 2>&1 | grep 'Elapsed Time: '
 
+  # Test U_CHARSET_IS_UTF8
+  u_charset_is_utf8-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          cd icu4c/source;
+          ./runConfigureICU Linux CPPFLAGS="-DU_CHARSET_IS_UTF8=1";
+          make -j2 check
+
+  # Test U_OVERRIDE_CXX_ALLOCATION-is-0-test
+  u_charset_is_utf8-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          cd icu4c/source;
+          CPPFLAGS="-DU_OVERRIDE_CXX_ALLOCATION=0" ./runConfigureICU Linux;
+          make clean;
+          make -j2 check
+ 
   # Copyright scan
   copyright-scan:
     runs-on: ubuntu-latest
