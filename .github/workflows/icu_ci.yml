@@ -186,7 +186,7 @@ jobs:
           INTLTEST_OPTS=-w make check 2>&1 | grep 'Elapsed Time: '
 
   # Test U_CHARSET_IS_UTF8
-  u_charset_is_utf8-test:
+  u-charset-is-utf8-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -196,7 +196,7 @@ jobs:
           make -j2 check
 
   # Test U_OVERRIDE_CXX_ALLOCATION-is-0-test
-  u_charset_is_utf8-test:
+  u-override-cxx-allocation-is-0-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
