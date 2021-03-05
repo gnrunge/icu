@@ -71,6 +71,6 @@ main(int argc,
     return 1;
   }
 
-  printf("\n*** PASS PASS PASS, test PASSED!!!!!!!!\n");
+  printf("\n*** pass pass pass, test PASSED!!!!!!!!\n");
   return 0;
 }
