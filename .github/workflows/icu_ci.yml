@@ -265,8 +265,8 @@ jobs:
   icu4j-test-with-little-endian:
     runs-on: ubuntu-latest
     steps:
-      - name: Build and test
       - uses: actions/checkout@v2
+      - name: Build and test
       - run: |
           (cd icu4c/source && ICU_DATA_BUILDTOOL_OPTS=--include_uni_core_data ./runConfigureICU Linux && make -j12 check)
           mkdir -p /tmp/icu4j_data_test;
