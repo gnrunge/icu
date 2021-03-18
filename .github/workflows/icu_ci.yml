@@ -273,7 +273,7 @@ jobs:
           cp icu4c/source/data/out/tmp/icudt*l.dat /tmp/icu4j_data_test;
           cd icu4j/;
           ant clean && ant -Dicu4c.data.path=/tmp/icu4j_data_test check
-      - name: List failures (if any)
-        run: |
-          [ -d icu4j/out/junit-results ] && cd icu4j && cat `find out/junit-results -name "*.txt" -exec grep -l FAILED {} \;`;
-        if: ${{ failure() }}
+      #- name: List failures (if any)
+      #  run: |
+      #    [ -d icu4j/out/junit-results ] && cd icu4j && cat `find out/junit-results -name "*.txt" -exec grep -l FAILED {} \;`;
+      #  if: ${{ failure() }}
