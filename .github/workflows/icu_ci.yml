@@ -5,13 +5,7 @@
 
 name: GHA CI
 
-on:
-  push:
-    branches:
-      - main
-      - 'maint/maint*'
-  pull_request:
-    branches: '**'
+on: [push]
 
 jobs:
 
@@ -379,3 +373,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: python3 tools/scripts/uconfig_vars_test.py -p
+
+# Run character APIs performance test.
+  charperf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          cd icu4c/source
+          runConfigureICU Linux
+          make -j2 check
+          ls test/perf/charperf
+          ( cd test/perf/charperf && LD_LIBRARY_PATH=../../../lib:../../../tools/ctestfw charperf -t 5 -p 10 -v TestIsDigit)
+          cat test/perfcharperf/output.txt

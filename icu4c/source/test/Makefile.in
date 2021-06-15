@@ -34,7 +34,7 @@ STATUS_FULL = $(shell pwd)/$(STATUS_TMP)
 ## Files to remove for 'make clean'
 CLEANFILES = *~ $(STATUS_TMP)
 
-SUBDIRS = $(TESTDATA) intltest $(IOTEST) cintltst $(LETEST) $(FUZZER)
+SUBDIRS = $(TESTDATA) intltest $(IOTEST) cintltst $(LETEST) $(FUZZER) perf
 
 ## List of phony targets
 .PHONY : everything all all-local all-recursive install install-local		\

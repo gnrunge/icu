@@ -390,7 +390,7 @@ UBool UPerfTest::runTestLoop( char* testname, char* par )
                         loops = failsafe;
                         failsafe *= 10;
                     } else {
-                        //System.out.println("# " + meth.getName() + " x " + loops + " = " + t);                            
+                        //System.out.println("# " + meth.getName() + " x " + loops + " = " + t);
                         loops = (int)((double)n / t * loops + 0.5);
                         if (loops == 0) {
                             fprintf(stderr,"Unable to converge on desired duration");
@@ -453,16 +453,24 @@ UBool UPerfTest::runTestLoop( char* testname, char* par )
                     fprintf(stderr, "%s did not run\n", name);
                 }
                 else if(events == -1) {
-                    fprintf(stdout, "%%= %s avg: %.4g loops: %i avg/op: %.4g ns\n",
+                    fprintf(stdout, "%%= %s avg: %.4g loops: %i AVG/op: %.4g ns\n",
                             name, avg_t, (int)loops, (avg_t*1E9)/(loops*ops));
                     fprintf(stdout, "_= %s min: %.4g loops: %i min/op: %.4g ns\n",
                             name, min_t, (int)loops, (min_t*1E9)/(loops*ops));
+                    fprintf(stdout, "Write output to file\n");
+                    FILE *output = fopen("output.txt", "w");
+                    fprintf(output,"%.4g", (avg_t*1E9)/(loops*ops));
+                    fclose(output);
                 }
                 else {
-                    fprintf(stdout, "%%= %s avg: %.4g loops: %i avg/op: %.4g ns avg/event: %.4g ns\n",
+                    fprintf(stdout, "%%= %s avg: %.4g loops: %i AVG/op: %.4g ns avg/event: %.4g ns\n",
                             name, avg_t, (int)loops, (avg_t*1E9)/(loops*ops), (avg_t*1E9)/(loops*events));
                     fprintf(stdout, "_= %s min: %.4g loops: %i min/op: %.4g ns min/event: %.4g ns\n",
                             name, min_t, (int)loops, (min_t*1E9)/(loops*ops), (min_t*1E9)/(loops*events));
+                    fprintf(stdout, "Write output to file\n");
+                    FILE *output = fopen("output.txt", "w");
+                    fprintf(output,"%.4g", (avg_t*1E9)/(loops*ops));
+                    fclose(output);
                 }
             }
             delete testFunction;
