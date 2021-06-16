@@ -384,5 +384,5 @@ jobs:
           ./runConfigureICU Linux
           make -j2 check
           ls test/perf/charperf
-          ( cd test/perf/charperf && LD_LIBRARY_PATH=../../../lib:../../../tools/ctestfw charperf -t 5 -p 10 -v TestIsDigit)
+          ( cd test/perf/charperf && ls && LD_LIBRARY_PATH=../../../lib:../../../tools/ctestfw ./charperf -t 5 -p 10 -v TestIsDigit)
           cat test/perf/charperf/output.txt
